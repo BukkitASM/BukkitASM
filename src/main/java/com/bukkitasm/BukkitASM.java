@@ -1,6 +1,6 @@
 package com.bukkitasm;
 
-import net.minecraft.server.v1_12_R1.DedicatedServer;
+import org.bukkit.event.Event;
 
 /**
  * Created by Jasper on 2-10-2017.
@@ -14,10 +14,19 @@ public class BukkitASM {
 
     }
 
+    public static void craftInit() {
+        System.out.println("*CraftInit*");
+    }
+
+
     public static void onPreStartDedicatedServer() {
         System.out.println("[BukkitASM] Starting dedicated server!");
     }
 
+    //TODO: Handle all event calls
+    public static void onEventCall(Event event) {
 
 
+
+    }
 }

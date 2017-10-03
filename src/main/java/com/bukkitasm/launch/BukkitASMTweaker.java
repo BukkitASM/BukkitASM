@@ -2,11 +2,15 @@ package com.bukkitasm.launch;
 
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,9 @@ import java.util.List;
  * Created by Jasper on 2-10-2017.
  */
     public class BukkitASMTweaker implements ITweaker {
+
+        public static InputStream in = System.in;
+        public static OutputStream out = System.out;
 
         @Override
         public void acceptOptions(List<String> list, File file, File file1, String s) {

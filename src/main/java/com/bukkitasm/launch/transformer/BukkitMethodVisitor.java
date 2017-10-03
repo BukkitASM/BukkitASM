@@ -12,6 +12,8 @@ public class BukkitMethodVisitor extends MethodVisitor implements Opcodes {
     private String className;
     private String methodName;
 
+    private boolean injectOut = true;
+
     public BukkitMethodVisitor(String className, MethodVisitor methodVisitor, String methodName) {
         super(ASM5, methodVisitor);
         this.className = className;
@@ -44,7 +46,41 @@ public class BukkitMethodVisitor extends MethodVisitor implements Opcodes {
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
 
+        if(className.contains("craftServer")) {
+            if(methodName.contains("<init>")) {
+
+
+                if(injectOut) {
+                    injectOut = false;
+                    System.out.println("[BukkitASM] CraftServer init method found!, Injecting hooks.");
+                    injectCraftInit(mv);
+                    injectOutHook(mv);
+                }
+
+            }
+        }
+
         super.visitMethodInsn(opcode, owner, name, desc, itf);
+    }
+    //TODO: Sadly this isnt working :W
+    private void injectOutHook(MethodVisitor mv) {
+
+        mv.visitTypeInsn(NEW, "java/io/PrintStream");
+        mv.visitInsn(DUP);
+        mv.visitFieldInsn(GETSTATIC, "com/bukkitasm/launch/BukkitASMTweaker", "out", "Ljava/io/OutputStream;");
+        mv.visitMethodInsn(INVOKESPECIAL, "java/io/PrintStream", "<init>", "(Ljava/io/OutputStream;)V", false);
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "setOut", "(Ljava/io/PrintStream;)V", false);
+        Label l1 = new Label();
+        mv.visitLabel(l1);
+        mv.visitLineNumber(15, l1);
+        mv.visitFieldInsn(GETSTATIC, "com/bukkitasm/launch/BukkitASMTweaker", "in", "Ljava/io/InputStream;");
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "setIn", "(Ljava/io/InputStream;)V", false);
+        Label l2 = new Label();
+        mv.visitLabel(l2);
+    }
+    //TODO: Handle craftInit
+    private void injectCraftInit(MethodVisitor mv) {
+        mv.visitMethodInsn(INVOKESTATIC, "com/bukkitasm/BukkitASM", "craftInit", "()V", false);
     }
 
     @Override
