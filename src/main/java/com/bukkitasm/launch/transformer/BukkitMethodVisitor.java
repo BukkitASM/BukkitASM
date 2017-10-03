@@ -1,5 +1,6 @@
 package com.bukkitasm.launch.transformer;
 
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -44,6 +45,13 @@ public class BukkitMethodVisitor extends MethodVisitor implements Opcodes {
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
 
         super.visitMethodInsn(opcode, owner, name, desc, itf);
+    }
+
+    @Override
+    public void visitLineNumber(int line, Label start) {
+        //System.out.println(" CLAZZ: " + className + " Method: " + methodName + " " +  "line = [" + line + "], start = [" + start + "]");
+
+        super.visitLineNumber(line, start);
     }
 
     @Override

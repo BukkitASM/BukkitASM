@@ -3,6 +3,7 @@
   "package": "com.bukkitasm.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinMain"
+    "MixinMain",
+    "MixinDedicatedServer"
   ]
 }
