@@ -5,8 +5,6 @@ import net.minecraft.launchwrapper.Launch;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 /**
@@ -14,9 +12,17 @@ import java.util.logging.Logger;
  */
 public class BukkitASMLauncher {
 
-    public static void main(String[] args ) {
+    public static void main(String[] args) {
         try {
+
+            File serverJar = new File("server.jar");
+            if (!serverJar.exists()) {
+                System.err.println("You need a Spigot or bukkit jar in this folder and name it server.jar !");
+                System.exit(1);
+            }
+
             new BukkitASMLauncher().launch(args);
+
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -25,24 +31,6 @@ public class BukkitASMLauncher {
 
     }
 
-    public void launch(String[] args) throws URISyntaxException, IOException, ClassNotFoundException {
-
-
-        Path base = Paths.get(BukkitASMLauncher.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
-        if(!checkMinecraft(base)) {
-            return;
-        }
-        Logger logger = Logger.getLogger("Minecraft");
-        Launch.main(join(args,
-                "--tweakClass", "com.bukkitasm.launch.BukkitASMTweaker"
-        ));
-
-
-
-    }
-
-
-
     private static String[] join(String[] args, String... prefix) {
         String[] result = new String[prefix.length + args.length];
         System.arraycopy(prefix, 0, result, 0, prefix.length);
@@ -50,17 +38,13 @@ public class BukkitASMLauncher {
         return result;
     }
 
-    private boolean checkMinecraft(Path base) {
-    boolean toReturn = false;
+    public void launch(String[] args) throws URISyntaxException, IOException, ClassNotFoundException {
 
-        File serverFile = new File("server.jar");
-        if(serverFile.exists()) {
-            toReturn = true;
-            base.resolve("server.jar");
+        Logger logger = Logger.getLogger("Minecraft");
+        Launch.main(join(args,
+                "--tweakClass", "com.bukkitasm.launch.BukkitASMTweaker"
+        ));
 
-        }
-
-    return toReturn;
     }
 
 

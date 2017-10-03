@@ -25,14 +25,13 @@ public class BukkitASMTweaker implements ITweaker {
     public void injectIntoClassLoader(LaunchClassLoader launchClassLoader) {
 
         try {
+
             launchClassLoader.addURL(new File("server.jar").toURI().toURL());
             launchClassLoader.registerTransformer("com.bukkitasm.launch.transformer.BukkitTransformer");
             MixinBootstrap.init();
             MixinEnvironment env = MixinEnvironment.getDefaultEnvironment();
             env.setSide(MixinEnvironment.Side.SERVER);
             Mixins.addConfiguration("mixins.server.json");
-
-
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
