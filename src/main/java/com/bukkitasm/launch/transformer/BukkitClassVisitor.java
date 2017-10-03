@@ -17,8 +17,6 @@ public class BukkitClassVisitor extends ClassVisitor {
         this.className = className;
     }
 
-
-
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 

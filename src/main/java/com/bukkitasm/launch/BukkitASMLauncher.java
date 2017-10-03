@@ -1,12 +1,8 @@
 package com.bukkitasm.launch;
 
-import com.bukkitasm.ConsoleWriter;
 import net.minecraft.launchwrapper.Launch;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.Writer;
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
