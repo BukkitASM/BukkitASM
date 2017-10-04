@@ -1,0 +1,3 @@
+[submodule "BukkitASMAPI"]
+	path = BukkitASMAPI
+	url = https://github.com/BukkitASM/BukkitASMAPI.git
