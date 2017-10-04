@@ -9,9 +9,12 @@ import org.spongepowered.asm.mixin.Mixins;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Jasper on 2-10-2017.
@@ -29,9 +32,14 @@ import java.util.List;
         @Override
         public void injectIntoClassLoader(LaunchClassLoader launchClassLoader) {
 
+
             try {
 
                 launchClassLoader.addURL(new File("server.jar").toURI().toURL());
+
+
+
+
                 launchClassLoader.registerTransformer("com.bukkitasm.launch.transformer.BukkitTransformer");
                 MixinBootstrap.init();
                 MixinEnvironment env = MixinEnvironment.getDefaultEnvironment();
@@ -40,6 +48,7 @@ import java.util.List;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                System.exit(1);
             }
         }
 

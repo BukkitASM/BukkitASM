@@ -1,5 +1,6 @@
 package com.bukkitasm;
 
+import net.minecraft.server.v1_12_R1.DedicatedServer;
 import org.bukkit.event.Event;
 
 /**
@@ -19,8 +20,8 @@ public class BukkitASM {
     }
 
 
-    public static void onPreStartDedicatedServer() {
-        System.out.println("[BukkitASM] Starting dedicated server!");
+    public static void onPreStartDedicatedServer(DedicatedServer server) {
+        System.out.println("[BukkitASM] Starting dedicated server version: " + server.getVersion());
     }
 
     //TODO: Handle all event calls

@@ -19,7 +19,7 @@ public class MixinDedicatedServer {
     @Inject(method = "init", remap = false, at = @At("HEAD"))
     public void init(CallbackInfoReturnable<Boolean> callbackInfo) throws IOException {
 
-        BukkitASM.onPreStartDedicatedServer();
+        BukkitASM.onPreStartDedicatedServer((DedicatedServer) (Object) this);
     }
 
 
