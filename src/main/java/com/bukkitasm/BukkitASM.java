@@ -1,7 +1,11 @@
 package com.bukkitasm;
 
+import com.bukkitasm.manager.IPluginManager;
+import com.bukkitasm.manager.TransformerManager;
 import net.minecraft.server.v1_12_R1.DedicatedServer;
 import org.bukkit.event.Event;
+
+import java.io.File;
 
 /**
  * Created by Jasper on 2-10-2017.
@@ -9,10 +13,19 @@ import org.bukkit.event.Event;
 public class BukkitASM {
     public static String version = "1.0";
     public static String[] authors = {"King_Jasper", ""};
-
+    public static IPluginManager pluginManager;
+    public static TransformerManager transformerManager;
     //TODO: Handle the Core plugin's
-    public void start() {
+    public static void start() {
+        File pluginDir = new File("corePlugins");
+        if(!pluginDir.exists()) {
+            pluginDir.mkdirs();
+        }
 
+        pluginManager = new IPluginManager(pluginDir);
+        pluginManager.initPluginManager();
+        transformerManager = new TransformerManager();
+        transformerManager.init();
     }
 
     public static void craftInit() {

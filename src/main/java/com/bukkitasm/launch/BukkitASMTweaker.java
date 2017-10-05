@@ -1,5 +1,6 @@
 package com.bukkitasm.launch;
 
+import com.bukkitasm.BukkitASM;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -31,6 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
         @Override
         public void injectIntoClassLoader(LaunchClassLoader launchClassLoader) {
+            BukkitASM.start();
 
 
             try {
@@ -50,6 +52,7 @@ import java.util.concurrent.ConcurrentHashMap;
                 e.printStackTrace();
                 System.exit(1);
             }
+            launchClassLoader.registerTransformer("com.bukkitasm.launch.transformer.PluginTransformer");
         }
 
         @Override
