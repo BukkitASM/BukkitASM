@@ -19,7 +19,10 @@ public class PluginTransformer implements IClassTransformer{
     for(ITransformer transformer : BukkitASM.transformerManager.transformers) {
 
         if(clzzName.contains(transformer.classTarget)) {
-            System.out.println("[ITransformer] transforming " + clzzName + " From: " + transformer.getClass().getName());
+           if(!transformer.classTarget.equals("")) {
+               System.out.println("[ITransformer] transforming " + clzzName + " From: " + transformer.getClass().getName());
+           }
+
             modBytes = transformer.transform(clzzName, modBytes);
         }
     }
