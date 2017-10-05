@@ -1,8 +1,8 @@
 package com.bukkitasm.manager;
 
-import com.bukkitasm.Test;
 import com.bukkitasm.plugin.ILoadingPlugin;
 import com.bukkitasm.plugin.manager.PluginManager;
+import com.google.common.io.Files;
 
 import java.io.File;
 import java.net.URL;
@@ -35,7 +35,7 @@ public class IPluginManager extends PluginManager {
         pluginUrls = new ArrayList<URL>();
         pluginClasses = new HashSet<String>();
         searchPlugins(getPluginsDir());
-        getPlugins().add(new Test());
+
         preSetupPlugins();
 
 
@@ -44,8 +44,10 @@ public class IPluginManager extends PluginManager {
         String pluginClassString = null;
         File pluginFile = null;
         for(File file : pluginDir.listFiles()) {
-            if(file.getName().contains(".jar")) {
+            String extension = Files.getFileExtension(file.getAbsolutePath());
 
+
+            if(extension.equals("jar")) {
 
                 try {
 

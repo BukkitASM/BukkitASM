@@ -1,20 +1,19 @@
-package com.bukkitasm;
+package com.bukkitasm.tesplugin;
 
 import com.bukkitasm.transformer.ITransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-
 /**
- * Created by Jasper on 4-10-2017.
+ * Created by Jasper on 5-10-2017.
  */
-public class TestTransformer extends ITransformer {
+public class BlockCactusTransformer extends ITransformer {
 
-
-    public TestTransformer(String classTarget) {
+    public BlockCactusTransformer(String classTarget) {
         super(classTarget);
     }
+
 
     @Override
     public byte[] transform(String className, byte[] buffer) {
@@ -42,7 +41,7 @@ public class TestTransformer extends ITransformer {
                     }
                     if(targetNode !=null) {
                         System.out.println("[Removing cactusDamage!]");
-                    targetNode = targetNode.getPrevious();
+                        targetNode = targetNode.getPrevious();
                         method.instructions.insertBefore(targetNode, new InsnNode(Opcodes.RETURN));
                         LabelNode newLabelNode = new LabelNode();
                         method.instructions.insert(targetNode, newLabelNode);
