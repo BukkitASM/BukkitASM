@@ -73,6 +73,7 @@ shadowJar {
         include(dependency('com.google.code.gson:gson'))
         include(dependency('commons-io:commons-io'))
         include(dependency('com.google.guava:guava'))
+        include(project(':BukkitASMAPI'))
     }
 
     exclude 'dummyThing'
