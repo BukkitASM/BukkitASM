@@ -26,28 +26,11 @@ public class BlockCactusTransformer extends ITransformer {
             if(method.name.equals("a")) {
                 if(method.desc.equals("(Lnet/minecraft/server/v1_12_R1/World;Lnet/minecraft/server/v1_12_R1/BlockPosition;Lnet/minecraft/server/v1_12_R1/IBlockData;Lnet/minecraft/server/v1_12_R1/Entity;)V")) {
 
-                    AbstractInsnNode targetNode = null;
-
-                    for(AbstractInsnNode instruction : method.instructions.toArray()) {
-                        if(instruction.getOpcode() == Opcodes.GETSTATIC) {
-                            if(instruction.getNext().getOpcode() == Opcodes.FCONST_1) {
-                                if(instruction.getNext().getNext().getOpcode() == Opcodes.INVOKEVIRTUAL ) {
-                                    targetNode = instruction;
-
-                                }
-                            }
-
-                        }
-                    }
-                    if(targetNode !=null) {
-                        System.out.println("[Removing cactusDamage!]");
-                        targetNode = targetNode.getPrevious();
-                        method.instructions.insertBefore(targetNode, new InsnNode(Opcodes.RETURN));
-                        LabelNode newLabelNode = new LabelNode();
-                        method.instructions.insert(targetNode, newLabelNode);
-
-                    }
-
+                    //Better to wrap this in a IFEQ, (Fore more info about ASM watch VikeStep his Videos on YT
+                    System.out.println("[Removing cactusDamage!]");
+                    method.instructions.insert(new InsnNode(Opcodes.RETURN));
+                    LabelNode newLabelNode = new LabelNode();
+                    method.instructions.insert(newLabelNode);
 
                 }
             }
