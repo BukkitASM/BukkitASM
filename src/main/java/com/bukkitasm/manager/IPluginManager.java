@@ -30,7 +30,8 @@ public class IPluginManager extends PluginManager {
     @Override
     public void initPluginManager() {
         setPlugins(new ArrayList<ILoadingPlugin>());
-        System.out.println(getPluginsDir().getAbsolutePath());
+        System.out.println("[PluginManager] CorePlugins folder set to: " + getPluginsDir().getAbsolutePath());
+
 
         pluginUrls = new ArrayList<URL>();
         pluginClasses = new HashSet<String>();
@@ -40,28 +41,24 @@ public class IPluginManager extends PluginManager {
 
 
     }
+
     public void searchPlugins(File pluginDir) {
         String pluginClassString = null;
         File pluginFile = null;
-        for(File file : pluginDir.listFiles()) {
+        for (File file : pluginDir.listFiles()) {
             String extension = Files.getFileExtension(file.getAbsolutePath());
-
-
-            if(extension.equals("jar")) {
-
+            if (extension.equals("jar")) {
                 try {
-
                     JarFile jarFile = new JarFile(file);
                     Manifest manifest = null;
                     manifest = jarFile.getManifest();
 
                     Attributes attributes = manifest.getMainAttributes();
 
-                    if(attributes != null) {
+                    if (attributes != null) {
                         String pluginClassPath = attributes.getValue("Plugin-Class");
-                        if (pluginClassPath != null ) {
-                            System.out.println("[PluginManager] Plugin jar file found :" + file.getAbsolutePath());
-
+                        if (pluginClassPath != null) {
+                            System.out.println("[PluginManager] Loading  plugin " + file.getName());
 
                             pluginFile = file;
                             pluginClassString = pluginClassPath;
@@ -69,7 +66,6 @@ public class IPluginManager extends PluginManager {
                         }
 
                     }
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -79,26 +75,23 @@ public class IPluginManager extends PluginManager {
                 URLClassLoader urlClassLoader = new URLClassLoader(list, getClass().getClassLoader());
                 try {
                     Class clazz = Class.forName(pluginClassString, true, urlClassLoader);
-                    if(clazz.getSuperclass().equals(ILoadingPlugin.class)) {
+                    if (clazz.getSuperclass().equals(ILoadingPlugin.class)) {
                         ILoadingPlugin plugin = (ILoadingPlugin) clazz.newInstance();
                         plugin.setPluginFile(pluginFile);
                         getPlugins().add(plugin);
                     }
 
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
         }
-
     }
+
     public void preSetupPlugins() {
-        for(ILoadingPlugin plugin : getPlugins()) {
+        for (ILoadingPlugin plugin : getPlugins()) {
             plugin.preSetup();
+            System.out.println("[PluginManager] " + plugin.getiLoadingData().getName() + " Loaded!");
         }
     }
-
 }
